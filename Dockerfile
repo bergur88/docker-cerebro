@@ -37,7 +37,7 @@ RUN git clone https://github.com/lmenezes/cerebro /usr/src/cerebro \
  && cd /usr/src/cerebro \
  && git checkout master \
  && sbt stage \
- && cp -r target/universal/stage/* /usr/cerebro/
+ && cp -r target/universal/stage/* /usr/cerebro/ \
  && rm -rf /usr/src/cerebro /root/.ivy2
 
 CMD ["bin/cerebro", "-Dhosts.0.host=http://localhost:9200"]
