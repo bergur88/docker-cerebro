@@ -1,24 +1,9 @@
-FROM debian:jessie
+FROM openjdk:8-slim
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y curl ca-certificates git \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
-
-# JAVA
-ENV JAVA_MAJOR_VERSION 8
-ENV JAVA_UPDATE_VERSION 112
-ENV JAVA_BUILD_NUMBER 15
-ENV JAVA_HOME /usr/jdk1.${JAVA_MAJOR_VERSION}.0_${JAVA_UPDATE_VERSION}
-ENV PATH $PATH:$JAVA_HOME/bin
-RUN curl -sL --retry 3 \
-  --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-  "http://download.oracle.com/otn-pub/java/jdk/${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-b${JAVA_BUILD_NUMBER}/server-jre-${JAVA_MAJOR_VERSION}u${JAVA_UPDATE_VERSION}-linux-x64.tar.gz" \
-  | gunzip \
-  | tar x -C /usr/ \
- && grep '^networkaddress.cache.ttl=' $JAVA_HOME/jre/lib/security/java.security || echo 'networkaddress.cache.ttl=60' >> $JAVA_HOME/jre/lib/security/java.security \
- && ln -s $JAVA_HOME /usr/java \
- && rm -rf $JAVA_HOME/man
 
 # SBT
 ENV SBT_VERSION "0.13.5"
